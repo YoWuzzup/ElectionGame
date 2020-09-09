@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
+    <meta name="full-screen" content="yes">
+    <title>Election Game</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <script src="app.js"></script>
+</head>
+<body>
+
+    <div class="menu" id="menu">
+        <h1>Welcome!</h1>
+        <button class="menu-play button" onclick="newGame()">Play</button>
+        <button class="menu-continue button" onclick="continueGame()">Continue</button>
+    </div>
+
+    <div id="game">
+        <div id="inGameMenu" onclick="pauseGame()"></div>
+        <canvas id="canvas"></canvas>
+    </div>
+
+
+    <script type="text/javascript" charset="utf-8">
+        init();
+        newGame();
+    </script>
+</body>
+</html>
