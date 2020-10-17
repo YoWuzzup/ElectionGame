@@ -521,7 +521,7 @@ function newGame(){
     rects = [];
     skillPanels = [];
     score = 0;
-
+    
     // positioning the skill panel
     for (let i = 0; i < 4; i++) {
         skillPanels.push(new skillPanel());
@@ -533,6 +533,7 @@ function newGame(){
             skillPanels[i].position[0] += 20 + skillPanelSize.x;
         }
     }
+    init();
     engine();
     hideMenu();
 }
