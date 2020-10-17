@@ -29,7 +29,7 @@ var images = {
     bulletinEmpty: new Image(),
 
     // skills
-    skillLighter: new Image(),
+    skillHammer: new Image(),
     skillEraser: new Image(),
     skillPencil: new Image(),
     skillThumbTack: new Image(),
@@ -49,7 +49,7 @@ var imagesSrc = {
     bulletinEmpty: 'img/empty.jpg',
 
     // skills
-    skillLighter: 'img/Skills/lighter.svg',
+    skillHammer: 'img/Skills/hammer.jpg',
     skillEraser: 'img/Skills/eraser.svg',
     skillPencil: 'img/Skills/pencil.svg',
     skillThumbTack: 'img/Skills/skillThumbTack.svg',
@@ -62,7 +62,7 @@ var imagesSrc = {
 var skillPanelNames = [
     'namePencil',
     'nameEraser',
-    'nameLighter',
+    'nameHammer',
     'nameThumbTack'
 ];
 var statusActive = skillPanelNames[0];
@@ -321,39 +321,6 @@ skillPanel.prototype = {
     }
 }
 
-function activatingSkillPanel() {
-    switch (statusActive) {
-        case 'namePencil':
-            ctx.beginPath();
-            ctx.lineWidth = "6";
-            ctx.strokeStyle = "red";
-            ctx.rect(skillPanels[0].position[0], skillPanels[0].position[1], skillPanelSize.x, skillPanelSize.y);
-            ctx.stroke();
-            break;
-        case 'nameEraser':
-            ctx.beginPath();
-            ctx.lineWidth = "6";
-            ctx.strokeStyle = "red";
-            ctx.rect(skillPanels[1].position[0], skillPanels[1].position[1], skillPanelSize.x, skillPanelSize.y);
-            ctx.stroke();
-            break;
-        case 'nameLighter':
-            ctx.beginPath();
-            ctx.lineWidth = "6";
-            ctx.strokeStyle = "red";
-            ctx.rect(skillPanels[2].position[0], skillPanels[2].position[1], skillPanelSize.x, skillPanelSize.y);
-            ctx.stroke();
-            break;
-        case 'nameThumbTack':
-            ctx.beginPath();
-            ctx.lineWidth = "6";
-            ctx.strokeStyle = "red";
-            ctx.rect(skillPanels[3].position[0], skillPanels[3].position[1], skillPanelSize.x, skillPanelSize.y);
-            ctx.stroke();
-            break;
-    }
-}
-
                     // the bulletins 
 function rect() {
     this.size = [rectSize.x, rectSize.y];
@@ -429,40 +396,6 @@ function engine(){
         } else {
             r.position = [mouse.x - rectSize.x / 2, mouse.y - rectSize.y / 2];
         }
-    
-        // thumb tack skill
-        if(mouse.x >= r.position[0] && mouse.x <= r.position[0] + rectSize.x
-            && mouse.y >= r.position[1] && mouse.y <= r.position[1] + rectSize.y && statusActive === 'nameThumbTack'){
-                r.position[0] = mouse.x - rectSize.x / 2;
-                r.position[1] = mouse.y - rectSize.y / 2;
-            }
-
-        // eraser skill
-        if(    mouse.x >= r.position[0] && mouse.x <= r.position[0] + rectSize.x
-            && mouse.y >= r.position[1] && mouse.y <= r.position[1] + rectSize.y 
-            && statusActive === 'nameEraser' && (r.imagesSrc === 'bulletinYes' || r.imagesSrc === 'bulletinNo')){
-                r.imagesSrc = 'bulletinEmpty';
-                r.bulletinValue = 'bulletinEmptyValue';
-        }
-        // pen skill
-        if(    mouse.x >= r.position[0] && mouse.x <= r.position[0] + rectSize.x
-            && mouse.y >= r.position[1] && mouse.y <= r.position[1] + rectSize.y 
-            && statusActive === 'namePencil' && r.imagesSrc === 'bulletinEmpty'){
-                r.imagesSrc = 'bulletinYes';
-                r.bulletinValue = 'bulletinYesValue';
-        } else if (mouse.x >= r.position[0] && mouse.x <= r.position[0] + rectSize.x
-            && mouse.y >= r.position[1] && mouse.y <= r.position[1] + rectSize.y 
-            && statusActive === 'namePencil' && (r.imagesSrc === 'bulletinYes' || r.imagesSrc === 'bulletinNo')){
-                r.imagesSrc = 'bulletinSpoiled';
-                r.bulletinValue = 'bulletinSpoiledValue';
-            }
-        // lighter skill
-        if (mouse.x >= r.position[0] && mouse.x <= r.position[0] + rectSize.x
-            && mouse.y >= r.position[1] && mouse.y <= r.position[1] + rectSize.y 
-            && statusActive === 'nameLighter') {
-                let rectId = rects.findIndex(e => e === r);
-                rects.splice(rectId, 1);
-            }
         r.draw();
     }
     
@@ -495,7 +428,6 @@ function engine(){
     drawScore();
     counting();
     drawBallotBox();
-    activatingSkillPanel();
     requestAnimationFrame(engine);
 }
 
@@ -521,6 +453,8 @@ function newGame(){
     rects = [];
     skillPanels = [];
     score = 0;
+    engine();
+    hideMenu();
 
     // positioning the skill panel
     for (let i = 0; i < 4; i++) {
@@ -528,13 +462,11 @@ function newGame(){
         skillPanels[i].name = skillPanelNames[i]; 
         skillPanels[i].imagesSrc = (skillPanels[i].name === "namePencil") ? 'skillPencil'
                                  : (skillPanels[i].name === "nameEraser") ? 'skillEraser'
-                                 : (skillPanels[i].name === "nameLighter") ? 'skillLighter': 'skillThumbTack'; 
+                                 : (skillPanels[i].name === "nameHammer") ? 'skillHammer': 'skillThumbTack'; 
         for (let j = 1; j < skillPanels.length; j++) {
             skillPanels[i].position[0] += 20 + skillPanelSize.x;
         }
     }
-    engine();
-    hideMenu();
 }
 
 function pauseGame(){

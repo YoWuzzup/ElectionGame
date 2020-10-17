@@ -13,59 +13,29 @@ var score = 0;
 var eventIsOn = false;
 var watcherEventIsOn = false;
 var screenChanging = false;
-var eraser, pen, thumbTack;
 
 var colors = {
+    one: '#5be700',
+    two: '#d578d4',
+    ballotBoxColor: '#caafeb',
     scoreColor: '#000'
 };
 
 var images = {
     ballotBoxImg: new Image(),
-
-    // bulletins
     bulletinYes: new Image(),
     bulletinNo: new Image(),
-    bulletinSpoiled: new Image(),
-    bulletinEmpty: new Image(),
-
-    // skills
-    skillLighter: new Image(),
-    skillEraser: new Image(),
-    skillPencil: new Image(),
-    skillThumbTack: new Image(),
-
-    // events
     navalny: new Image(),
     watcher: new Image()
 };
 
 var imagesSrc = {
     ballotBoxImg: 'img/ballotBox.png',
-
-    // bulletins
     bulletinYes: 'img/yes.jpg',
     bulletinNo: 'img/no.jpg',
-    bulletinSpoiled: 'img/spoiled.jpg',
-    bulletinEmpty: 'img/empty.jpg',
-
-    // skills
-    skillLighter: 'img/Skills/lighter.svg',
-    skillEraser: 'img/Skills/eraser.svg',
-    skillPencil: 'img/Skills/pencil.svg',
-    skillThumbTack: 'img/Skills/skillThumbTack.svg',
-
-    // events
     navalny: 'img/Navalny.jpg',
     watcher: 'img/The Watcher.jpg'
 };
-
-var skillPanelNames = [
-    'namePencil',
-    'nameEraser',
-    'nameLighter',
-    'nameThumbTack'
-];
-var statusActive = skillPanelNames[0];
 
 var navalnyPos = {
     x: 200,
@@ -92,29 +62,18 @@ var mouse = {
     y: undefined
 };
 
-var skillPanels = [];
 var rects = [];
 var rectSize = {
     x: 50,
     y: 50
 };
 
-var skillPanelPos = {
-    x: 200,
-    y: 500
-}
-
-var skillPanelSize = {
-    x: 100,
-    y: 100
-};
-
 var ballotBoxSize = {
-    x: w,
+    x: 200,
     y: 100
 };
 var ballotBoxPos = {
-    x: 0, 
+    x: w / 2 - (ballotBoxSize.x / 2), 
     y: h / 1.3
 };
 
@@ -122,10 +81,8 @@ var ballotMovingDirection = rand(0, 1) ? 'left' : 'right';
 var ballotBoxMoving = false;
 
 var bulletinValue= {
-    bulletinYesValue: 2,
-    bulletinNoValue: -2,
-    bulletinSpoiledValue: -1,
-    bulletinEmptyValue: 1
+    bulletinYesValue: 1,
+    bulletinNoValue: -1
 };
 
 var delta = 0, time = 0, timer = 0, oldTime = 0, constTimer;
@@ -193,21 +150,6 @@ function orientationChange(){
     screenChanging = false;
 }
 
-window.addEventListener('click', e =>{
-    mouse.x = e.x;
-    mouse.y = e.y;
-
-    // activating skill panel
-    for (let i = 0; i < skillPanels.length; i++) {
-        let r = skillPanels[i];
-
-        if(mouse.x >= r.position[0] && mouse.x <= r.position[0] + skillPanelSize.x
-            && mouse.y >= r.position[1] && mouse.y <= r.position[1] + skillPanelSize.y){
-                statusActive = skillPanelNames[i];
-            }
-    }
-})
-
 window.addEventListener('mousedown', e =>{
     mouse.x = e.x;
     mouse.y = e.y;
@@ -265,7 +207,7 @@ function drawNavalny() {
 function drawBallotBox() {   
     images.ballotBoxImg.src = imagesSrc.ballotBoxImg;
     ctx.drawImage(images.ballotBoxImg, ballotBoxPos.x, ballotBoxPos.y, ballotBoxSize.x, ballotBoxSize.y);
-}
+}  
 
                         // drawing score
 function drawScore() {
@@ -291,10 +233,6 @@ function counting() {
                     score += bulletinValue.bulletinYesValue;
                 } else if (r.bulletinValue == 'bulletinNoValue') {
                     score += bulletinValue.bulletinNoValue;
-                } else if (r.bulletinValue == 'bulletinSpoiledValue') {
-                    score += bulletinValue.bulletinSpoiledValue;
-                } else if (r.bulletinValue == 'bulletinEmptyValue') {
-                    score += bulletinValue.bulletinEmptyValue;
                 }
             }
 
@@ -307,63 +245,11 @@ function counting() {
     } 
 }
 
-                    //  the skill panel
-function skillPanel() {   
-    this.size = [skillPanelSize.x, skillPanelSize.y];
-    this.position = [skillPanelPos.x, skillPanelPos.y];
-    this.imagesSrc;
-}
-
-skillPanel.prototype = {
-    draw: function (){ 
-        var skillImage = images[this.imagesSrc];
-        ctx.drawImage(skillImage, this.position[0], this.position[1], this.size[0], this.size[1]);
-    }
-}
-
-function activatingSkillPanel() {
-    switch (statusActive) {
-        case 'namePencil':
-            ctx.beginPath();
-            ctx.lineWidth = "6";
-            ctx.strokeStyle = "red";
-            ctx.rect(skillPanels[0].position[0], skillPanels[0].position[1], skillPanelSize.x, skillPanelSize.y);
-            ctx.stroke();
-            break;
-        case 'nameEraser':
-            ctx.beginPath();
-            ctx.lineWidth = "6";
-            ctx.strokeStyle = "red";
-            ctx.rect(skillPanels[1].position[0], skillPanels[1].position[1], skillPanelSize.x, skillPanelSize.y);
-            ctx.stroke();
-            break;
-        case 'nameLighter':
-            ctx.beginPath();
-            ctx.lineWidth = "6";
-            ctx.strokeStyle = "red";
-            ctx.rect(skillPanels[2].position[0], skillPanels[2].position[1], skillPanelSize.x, skillPanelSize.y);
-            ctx.stroke();
-            break;
-        case 'nameThumbTack':
-            ctx.beginPath();
-            ctx.lineWidth = "6";
-            ctx.strokeStyle = "red";
-            ctx.rect(skillPanels[3].position[0], skillPanels[3].position[1], skillPanelSize.x, skillPanelSize.y);
-            ctx.stroke();
-            break;
-    }
-}
-
-                    // the bulletins 
-function rect() {
+function rect () {
     this.size = [rectSize.x, rectSize.y];
-    this.imagesSrc = rand(0, 1) ? 'bulletinYes' : rand(0, 1) ? 'bulletinNo'
-                   : rand(0, 1) ? 'bulletinSpoiled': 'bulletinEmpty';
+    this.imagesSrc = rand(0, 1) ? 'bulletinYes' : 'bulletinNo';
     this.position = [rand(0, currentWidth - rectSize.x), -rectSize.y];
-    this.bulletinValue = (this.imagesSrc === 'bulletinYes') ? 'bulletinYesValue' 
-                       : (this.imagesSrc === 'bulletinNo') ? 'bulletinNoValue'
-                       : (this.imagesSrc === 'bulletinSpoiled') ? 'bulletinSpoiledValue'
-                       : 'bulletinEmptyValue';
+    this.bulletinValue = (this.imagesSrc === 'bulletinYes') ? 'bulletinYesValue' : 'bulletinNoValue';
     this.selected = false;
     this.speed = randFloat(0.1, 0.5);
 }    
@@ -379,7 +265,7 @@ for(let [name,value] of Object.entries(imagesSrc)) {
     images[name].src = value;
 }
 
-                    // moving the ballot box
+                        // moving the ballot box
 function navalnyAlert(){
     drawNavalny();
     var pos = 10;
@@ -395,21 +281,20 @@ function navalnyAlert(){
         }
     }
 }                       
-
-                  // counting the score with the watcher on
+                        // counting the score with the watcher on
 function watcherEvent(){
     drawWathcer();
     eventIsOn = true;
     watcherEventIsOn = true;
     bulletinValue.bulletinYesValue = -10;
 }
+
 // setInterval(watcherEvent, 3000);
 
 // setInterval(() => {
 //         ballotBoxMoving = true;
 // }, navalnyRandomTime);
 
-                // the main function
 function engine(){
     if(paused) return;
     currentWidth = window.innerWidth, currentHeight = window.innerHeight;
@@ -429,47 +314,9 @@ function engine(){
         } else {
             r.position = [mouse.x - rectSize.x / 2, mouse.y - rectSize.y / 2];
         }
-    
-        // thumb tack skill
-        if(mouse.x >= r.position[0] && mouse.x <= r.position[0] + rectSize.x
-            && mouse.y >= r.position[1] && mouse.y <= r.position[1] + rectSize.y && statusActive === 'nameThumbTack'){
-                r.position[0] = mouse.x - rectSize.x / 2;
-                r.position[1] = mouse.y - rectSize.y / 2;
-            }
-
-        // eraser skill
-        if(    mouse.x >= r.position[0] && mouse.x <= r.position[0] + rectSize.x
-            && mouse.y >= r.position[1] && mouse.y <= r.position[1] + rectSize.y 
-            && statusActive === 'nameEraser' && (r.imagesSrc === 'bulletinYes' || r.imagesSrc === 'bulletinNo')){
-                r.imagesSrc = 'bulletinEmpty';
-                r.bulletinValue = 'bulletinEmptyValue';
-        }
-        // pen skill
-        if(    mouse.x >= r.position[0] && mouse.x <= r.position[0] + rectSize.x
-            && mouse.y >= r.position[1] && mouse.y <= r.position[1] + rectSize.y 
-            && statusActive === 'namePencil' && r.imagesSrc === 'bulletinEmpty'){
-                r.imagesSrc = 'bulletinYes';
-                r.bulletinValue = 'bulletinYesValue';
-        } else if (mouse.x >= r.position[0] && mouse.x <= r.position[0] + rectSize.x
-            && mouse.y >= r.position[1] && mouse.y <= r.position[1] + rectSize.y 
-            && statusActive === 'namePencil' && (r.imagesSrc === 'bulletinYes' || r.imagesSrc === 'bulletinNo')){
-                r.imagesSrc = 'bulletinSpoiled';
-                r.bulletinValue = 'bulletinSpoiledValue';
-            }
-        // lighter skill
-        if (mouse.x >= r.position[0] && mouse.x <= r.position[0] + rectSize.x
-            && mouse.y >= r.position[1] && mouse.y <= r.position[1] + rectSize.y 
-            && statusActive === 'nameLighter') {
-                let rectId = rects.findIndex(e => e === r);
-                rects.splice(rectId, 1);
-            }
         r.draw();
     }
     
-    skillPanels.forEach(e => {
-        e.draw();
-    });
-
     // create
     timer += delta;
     if(timer > 1000){
@@ -477,25 +324,24 @@ function engine(){
         timer = 0;
     }
 
-        // moving the box plus picture
+    // moving the box plus picture
     // ballotBoxMoving = true;
     // if(ballotBoxMoving){
     //     navalnyAlert();
     // }
 
-        // run the watcherEvent
-    // if(score >= 3){
-    //     watcherEvent();
-    // } else if (score <= 3){
-    //     bulletinValue.bulletinYesValue = 1;
-    //     watcherEventIsOn = false;
-    //     eventIsOn = false;
-    // }
+    // run the watcherEvent
+    if(score >= 3){
+        watcherEvent();
+    } else if (score <= 3){
+        bulletinValue.bulletinYesValue = 1;
+        watcherEventIsOn = false;
+        eventIsOn = false;
+    }
     // navalnyAlert();
     drawScore();
     counting();
     drawBallotBox();
-    activatingSkillPanel();
     requestAnimationFrame(engine);
 }
 
@@ -519,20 +365,7 @@ function showMenu(){
 function newGame(){
     paused = false;
     rects = [];
-    skillPanels = [];
     score = 0;
-
-    // positioning the skill panel
-    for (let i = 0; i < 4; i++) {
-        skillPanels.push(new skillPanel());
-        skillPanels[i].name = skillPanelNames[i]; 
-        skillPanels[i].imagesSrc = (skillPanels[i].name === "namePencil") ? 'skillPencil'
-                                 : (skillPanels[i].name === "nameEraser") ? 'skillEraser'
-                                 : (skillPanels[i].name === "nameLighter") ? 'skillLighter': 'skillThumbTack'; 
-        for (let j = 1; j < skillPanels.length; j++) {
-            skillPanels[i].position[0] += 20 + skillPanelSize.x;
-        }
-    }
     engine();
     hideMenu();
 }
