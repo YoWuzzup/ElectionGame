@@ -208,7 +208,7 @@ window.addEventListener('click', e =>{
     }
 })
 
-window.addEventListener('mousedown', e =>{
+window.addEventListener('touchstart', e =>{
     mouse.x = e.x;
     mouse.y = e.y;
     let i = rects.length - 1;
@@ -225,7 +225,7 @@ window.addEventListener('mousedown', e =>{
     }
 })
 
-window.addEventListener('mousemove', e => {
+window.addEventListener('touchmove', e => {
     if(isDragging === true){
         mouse.x = e.offsetX;
         mouse.y = e.offsetY;
@@ -242,7 +242,7 @@ window.addEventListener('mousemove', e => {
     } 
 })
 
-window.addEventListener('mouseup', (e) =>{
+window.addEventListener('touchend', (e) =>{
     if(isDragging === true) {
         isDragging = false;
         rects.forEach(e => {
