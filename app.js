@@ -100,13 +100,13 @@ var rectSize = {
 };
 
 var skillPanelPos = {
-    x: 200,
-    y: 500
+    x: w * 0.10,
+    y: h * 0.70
 }
 
 var skillPanelSize = {
-    x: 100,
-    y: 100
+    x: w / 100 * 7,
+    y: h / 100 * 7
 };
 
 var ballotBoxSize = {
@@ -209,8 +209,8 @@ window.addEventListener('click', e =>{
 })
 
 window.addEventListener('touchstart', e =>{
-    mouse.x = e.x;
-    mouse.y = e.y;
+    mouse.x = e.touches[0].clientX;
+    mouse.y = e.touches[0].clientY;
     let i = rects.length - 1;
     for (; i >= 0; i -= 1){
         var r = rects[i];
@@ -227,8 +227,8 @@ window.addEventListener('touchstart', e =>{
 
 window.addEventListener('touchmove', e => {
     if(isDragging === true){
-        mouse.x = e.offsetX;
-        mouse.y = e.offsetY;
+        mouse.x = e.touches[0].clientX;
+        mouse.y = e.touches[0].clientY;
         let i = rects.length - 1;
         
         for (; i >= 0; i -= 1){
@@ -245,8 +245,8 @@ window.addEventListener('touchmove', e => {
 window.addEventListener('touchend', (e) =>{
     if(isDragging === true) {
         isDragging = false;
-        rects.forEach(e => {
-            e.selected = false; 
+        rects.forEach(el => {
+            el.selected = false; 
         });
     }
 })
