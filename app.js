@@ -5,7 +5,7 @@ var paused = false;
 var canvas, ctx;
 var w = window.innerWidth;
 var h = window.innerHeight;
-var currentWidth, currentHeight;
+var currentWidth = window.innerWidth, currentHeight = window.innerWidth;
 var gameW = 0; 
 var gameH = 0;
 var isDragging = false;
@@ -99,15 +99,15 @@ var rectSize = {
     y: 50
 };
 
-var skillPanelPos = {
-    x: w * 0.10,
-    y: h * 0.70
-}
-
 var skillPanelSize = {
     x: w / 100 * 7,
     y: h / 100 * 7
 };
+
+var skillPanelPos = {
+    x: w * 0.10,
+    y: h - (skillPanelSize.y + skillPanelSize.y / 2) 
+}
 
 var ballotBoxSize = {
     x: w,
@@ -168,30 +168,30 @@ function resizeGame() {
     }
     screenChanging = false;
 }
+window.scrollTo(0,1);
+// resizing the game on orientation change
+// window.onorientationchange = function(event) { 
+//     console.log("the orientation of the device is now " + event.target.screen.orientation.angle);
+//     w = innerWidth;
+//     h = innerHeight;
+//     // canvas.width and canvas.height set the size of the canvas. 
+//     canvas.width = w;
+//     canvas.height = h;
 
-                    // resizing the game on orientation change
-window.addEventListener('orientationchange', orientationChange);
-function orientationChange(){
+//         // canvas.style.width and canvas.style.height set the resolution.
+//     canvas.style.width = w;
+//     canvas.style.height = h;
 
-    screenChanging = true;
-    if(screenChanging){
+//     ballotBoxPos = {
+//         x: currentWidth / 2 - (ballotBoxSize.x / 2), 
+//         y: currentHeight / 1.3
+//     };
     
-            // canvas.width and canvas.height set the size of the canvas. 
-        canvas.width = currentWidth;
-        canvas.height = currentHeight;
-
-            // canvas.style.width and canvas.style.height set the resolution.
-        canvas.style.width = currentWidth;
-        canvas.style.height = currentHeight;
-        console.log('sad');
-
-        ballotBoxPos = {
-            x: currentWidth / 2 - (ballotBoxSize.x / 2), 
-            y: currentHeight / 1.3
-        }
-    }
-    screenChanging = false;
-}
+//     skillPanelPos = {
+//         x: currentWidth * 0.10,
+//         y: currentHeight - (skillPanelSize.y + skillPanelSize.y / 2) 
+//     };
+// };
 
 window.addEventListener('click', e =>{
     mouse.x = e.x;
@@ -413,7 +413,7 @@ function watcherEvent(){
 function engine(){
     if(paused) return;
     currentWidth = window.innerWidth, currentHeight = window.innerHeight;
-
+    screen.orientation.angle = 0;
     // delta time
     time = new Date().getTime();
     delta = time - oldTime;
@@ -492,6 +492,7 @@ function engine(){
     //     eventIsOn = false;
     // }
     // navalnyAlert();
+  
     drawScore();
     counting();
     drawBallotBox();
