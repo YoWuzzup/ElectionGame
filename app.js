@@ -8,7 +8,6 @@ var h = window.innerHeight;
 var currentWidth = window.innerWidth, currentHeight = window.innerWidth;
 var gameW = 0; 
 var gameH = 0;
-var isDragging = false;
 var score = 0;
 var eventIsOn = false;
 var watcherEventIsOn = false;
@@ -110,9 +109,10 @@ var skillPanelPos = {
 }
 
 var ballotBoxSize = {
-    x: w,
+    x: w - rectSize.x * 1.3 * 2,
     y: 100
 };
+
 var ballotBoxPos = {
     x: 0, 
     y: h / 1.3
@@ -147,6 +147,38 @@ function randFloat(min, max) {
 
 var navalnyRandomTime = rand(2000, 5000);
 
+function currentSize(){
+    currentWidth = window.innerWidth, currentHeight = window.innerHeight;
+    
+    // canvas.width and canvas.height set the size of the canvas. 
+    canvas.width = currentWidth;
+    canvas.height = currentHeight;
+
+    // canvas.style.width and canvas.style.height set the resolution.
+    canvas.style.width = currentWidth;
+    canvas.style.height = currentHeight;
+    
+    ballotBoxPos = {
+        x: currentWidth / 2 - (ballotBoxSize.x / 2), 
+        y: currentHeight / 1.3
+    };
+    
+    ballotBoxSize = {
+        x: currentWidth - rectSize.x * 1.3 * 2,
+        y: 100
+    };
+
+    skillPanelPos = {
+        x: currentWidth * 0.10,
+        y: currentHeight - (skillPanelSize.y + skillPanelSize.y / 2) 
+    };
+
+    for (let i = 0; i < skillPanels.length; i++) {
+        skillPanels[i].position[0] = skillPanels[i].position[0];
+        skillPanels[i].position[1] = skillPanelPos.y;
+    }
+}
+
                         // resizing the game
 window.addEventListener('resize', resizeGame);
 function resizeGame() {
@@ -164,39 +196,16 @@ function resizeGame() {
         ballotBoxPos = {
             x: currentWidth / 2 - (ballotBoxSize.x / 2), 
             y: currentHeight / 1.3
-        }
+        } 
     }
     screenChanging = false;
 }
-window.scrollTo(0,1);
-// resizing the game on orientation change
-// window.onorientationchange = function(event) { 
-//     console.log("the orientation of the device is now " + event.target.screen.orientation.angle);
-//     w = innerWidth;
-//     h = innerHeight;
-//     // canvas.width and canvas.height set the size of the canvas. 
-//     canvas.width = w;
-//     canvas.height = h;
-
-//         // canvas.style.width and canvas.style.height set the resolution.
-//     canvas.style.width = w;
-//     canvas.style.height = h;
-
-//     ballotBoxPos = {
-//         x: currentWidth / 2 - (ballotBoxSize.x / 2), 
-//         y: currentHeight / 1.3
-//     };
-    
-//     skillPanelPos = {
-//         x: currentWidth * 0.10,
-//         y: currentHeight - (skillPanelSize.y + skillPanelSize.y / 2) 
-//     };
-// };
-
+// <= TESTING===========================================================================================
 window.addEventListener('click', e =>{
-    mouse.x = e.x;
-    mouse.y = e.y;
-
+    if(e.detail === 1){        
+        mouse.x = e.x;
+        mouse.y = e.y;
+    }
     // activating skill panel
     for (let i = 0; i < skillPanels.length; i++) {
         let r = skillPanels[i];
@@ -207,6 +216,7 @@ window.addEventListener('click', e =>{
             }
     }
 })
+// <= TESTING===========================================================================================
 
 window.addEventListener('touchstart', e =>{
     mouse.x = e.touches[0].clientX;
@@ -215,40 +225,35 @@ window.addEventListener('touchstart', e =>{
     for (; i >= 0; i -= 1){
         var r = rects[i];
         
-        if(mouse.x >= r.position[0] && mouse.x <= r.position[0] + rectSize.x
-            && mouse.y >= r.position[1] && mouse.y <= r.position[1] + rectSize.y){
-                isDragging = true;
+        if(isCursorInRect(r) && r.isDragging === false){
+                r.isDragging = true;
                 r.selected = true;
                 r.position[0] = mouse.x - rectSize.x / 2;
                 r.position[1] = mouse.y - rectSize.y / 2;
-            }
+        }
     }
 })
 
 window.addEventListener('touchmove', e => {
-    if(isDragging === true){
-        mouse.x = e.touches[0].clientX;
-        mouse.y = e.touches[0].clientY;
-        let i = rects.length - 1;
-        
-        for (; i >= 0; i -= 1){
-            var r = rects[i];
-            if(isCursorInRect(rects[i]) && r.selected === true){
-                
-            rects[i].position[0] = mouse.x - rectSize.x / 2;
-            rects[i].position[1] = mouse.y - rectSize.y / 2;
-            }       
-         }
+    mouse.x = e.touches[0].clientX;
+    mouse.y = e.touches[0].clientY;
+    let i = rects.length - 1;
+    for (; i >= 0; i -= 1){
+        var r = rects[i];
+        if(isCursorInRect(r) && r.selected === true && r.isDragging === true){
+            r.position[0] = mouse.x - rectSize.x / 2;
+            r.position[1] = mouse.y - rectSize.y / 2;
+        }       
     } 
 })
 
 window.addEventListener('touchend', (e) =>{
-    if(isDragging === true) {
-        isDragging = false;
         rects.forEach(el => {
-            el.selected = false; 
+            if(el.isDragging === true) {
+                el.selected = false; 
+            }
+            el.isDragging = false;
         });
-    }
 })
 
                         // drawing the watcher pic
@@ -365,6 +370,9 @@ function rect() {
                        : (this.imagesSrc === 'bulletinSpoiled') ? 'bulletinSpoiledValue'
                        : 'bulletinEmptyValue';
     this.selected = false;
+    this.changed = false;
+    this.isDragging = false;
+    this.thumbTacked = false;
     this.speed = randFloat(0.1, 0.5);
 }    
 
@@ -409,11 +417,13 @@ function watcherEvent(){
 //         ballotBoxMoving = true;
 // }, navalnyRandomTime);
 
+
+
                 // the main function
 function engine(){
     if(paused) return;
-    currentWidth = window.innerWidth, currentHeight = window.innerHeight;
-    screen.orientation.angle = 0;
+    currentSize();
+
     // delta time
     time = new Date().getTime();
     delta = time - oldTime;
@@ -429,40 +439,40 @@ function engine(){
         } else {
             r.position = [mouse.x - rectSize.x / 2, mouse.y - rectSize.y / 2];
         }
-    
-        // thumb tack skill
-        if(mouse.x >= r.position[0] && mouse.x <= r.position[0] + rectSize.x
-            && mouse.y >= r.position[1] && mouse.y <= r.position[1] + rectSize.y && statusActive === 'nameThumbTack'){
-                r.position[0] = mouse.x - rectSize.x / 2;
-                r.position[1] = mouse.y - rectSize.y / 2;
-            }
+
+        // pen skill
+        if(isCursorInRect(r) && statusActive === 'namePencil' 
+        && r.imagesSrc === 'bulletinEmpty' && r.changed === false 
+        && r.selected === true){
+                r.changed = true;
+                r.imagesSrc = 'bulletinYes';
+                r.bulletinValue = 'bulletinYesValue';
+        } else if (isCursorInRect(r) && statusActive === 'namePencil' && r.changed !== true 
+        && (r.imagesSrc === 'bulletinYes' || r.imagesSrc === 'bulletinNo') && r.selected === true){
+            r.imagesSrc = 'bulletinSpoiled';
+            r.bulletinValue = 'bulletinSpoiledValue';
+        }
 
         // eraser skill
-        if(    mouse.x >= r.position[0] && mouse.x <= r.position[0] + rectSize.x
-            && mouse.y >= r.position[1] && mouse.y <= r.position[1] + rectSize.y 
-            && statusActive === 'nameEraser' && (r.imagesSrc === 'bulletinYes' || r.imagesSrc === 'bulletinNo')){
+        if(isCursorInRect(r) && statusActive === 'nameEraser' 
+        &&(r.imagesSrc === 'bulletinYes' || r.imagesSrc === 'bulletinNo') && r.selected === true){
                 r.imagesSrc = 'bulletinEmpty';
                 r.bulletinValue = 'bulletinEmptyValue';
         }
-        // pen skill
-        if(    mouse.x >= r.position[0] && mouse.x <= r.position[0] + rectSize.x
-            && mouse.y >= r.position[1] && mouse.y <= r.position[1] + rectSize.y 
-            && statusActive === 'namePencil' && r.imagesSrc === 'bulletinEmpty'){
-                r.imagesSrc = 'bulletinYes';
-                r.bulletinValue = 'bulletinYesValue';
-        } else if (mouse.x >= r.position[0] && mouse.x <= r.position[0] + rectSize.x
-            && mouse.y >= r.position[1] && mouse.y <= r.position[1] + rectSize.y 
-            && statusActive === 'namePencil' && (r.imagesSrc === 'bulletinYes' || r.imagesSrc === 'bulletinNo')){
-                r.imagesSrc = 'bulletinSpoiled';
-                r.bulletinValue = 'bulletinSpoiledValue';
-            }
+
         // lighter skill
-        if (mouse.x >= r.position[0] && mouse.x <= r.position[0] + rectSize.x
-            && mouse.y >= r.position[1] && mouse.y <= r.position[1] + rectSize.y 
-            && statusActive === 'nameLighter') {
-                let rectId = rects.findIndex(e => e === r);
-                rects.splice(rectId, 1);
-            }
+        if (isCursorInRect(r) && statusActive === 'nameLighter' && r.selected === true) {
+            let rectId = rects.findIndex(e => e === r);
+            rects.splice(rectId, 1);
+        }
+        
+        // thumb tack skill
+        if(isCursorInRect(r) && statusActive === 'nameThumbTack' && r.selected === true){
+            r.thumbTacked = true;
+            r.position[0] = mouse.x - rectSize.x / 2;
+            r.position[1] = mouse.y - rectSize.y / 2;
+        } 
+
         r.draw();
     }
     
@@ -532,6 +542,7 @@ function newGame(){
                                  : (skillPanels[i].name === "nameLighter") ? 'skillLighter': 'skillThumbTack'; 
         for (let j = 1; j < skillPanels.length; j++) {
             skillPanels[i].position[0] += 20 + skillPanelSize.x;
+            skillPanels[i].position[1] = skillPanelPos.y;
         }
     }
     init();
@@ -541,6 +552,7 @@ function newGame(){
 
 function pauseGame(){
     paused = true;
+    document.querySelector('.menu-continue').style.display = 'block';
     showMenu();
 }
 
