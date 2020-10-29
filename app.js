@@ -434,9 +434,9 @@ function engine(){
     var i = rects.length - 1;
     for (; i >= 0; i -= 1){
         var r = rects[i];
-        if(!r.selected) {
+        if(!r.selected && !r.thumbTacked) {
             r.position[1] += r.speed * delta; 
-        } else {
+        } else if(r.selected && r.thumbTacked){
             r.position = [mouse.x - rectSize.x / 2, mouse.y - rectSize.y / 2];
         }
 
@@ -467,11 +467,15 @@ function engine(){
         }
         
         // thumb tack skill
-        if(isCursorInRect(r) && statusActive === 'nameThumbTack' && r.selected === true){
+        if(isCursorInRect(r) && statusActive === 'nameThumbTack' && r.selected === true
+            && r.thumbTacked === false){
             r.thumbTacked = true;
             r.position[0] = mouse.x - rectSize.x / 2;
             r.position[1] = mouse.y - rectSize.y / 2;
-        } 
+        } else if (!isCursorInRect(r)){
+            r.thumbTacked = false;
+
+        }
 
         r.draw();
     }
