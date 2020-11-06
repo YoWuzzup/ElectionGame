@@ -42,4 +42,5 @@ body {
     position: absolute;
     top: 2%;
     left: 2%;
+    display: none;
 }

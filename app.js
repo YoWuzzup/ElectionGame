@@ -551,6 +551,7 @@ function newGame(){
     }
     init();
     engine();
+    document.querySelector('#inGameMenu').style.display = 'block';
     hideMenu();
 }
 
