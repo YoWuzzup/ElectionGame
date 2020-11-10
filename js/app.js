@@ -568,6 +568,7 @@ function newGame(){
     init();
     engine();
     $('inGameMenu').style.display = 'block';
+    alert('Hello');
     hideMenu();
 }
 
