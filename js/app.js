@@ -1,4 +1,5 @@
 var $ = function (id) {return document.getElementById(id)};
+$('tutorial').hidden = true;
 
 var paused = false;
 
@@ -568,7 +569,6 @@ function newGame(){
     init();
     engine();
     $('inGameMenu').style.display = 'block';
-    alert(console.error());
     hideMenu();
 }
 
@@ -583,6 +583,7 @@ function pauseGame(){
                     // tutorial show up
 function tutorial(){
     $('tutorial').style.display = 'block';
+    $('tutorial').hidden = false;
     document.querySelector('.tutorial__slider').style.display = 'block';
     $('inGameMenu').style.display = 'block';
     sliderCount = 0;
@@ -606,6 +607,7 @@ function next(){
             activeSlide.classList.add(`active`);
             $('tutorial').style.display = 'none';
             document.querySelector('.tutorial__slider').style.display = 'none';
+            $('tutorial').hidden = true;
             $('inGameMenu').style.display = 'none';
             showMenu();
         }
