@@ -524,9 +524,14 @@ function engine(){
         }
         r.draw();
     }
-    skillPanels.forEach(e => {
-        e.draw();
-    });
+    try {
+        skillPanels.forEach(e => {
+            e.draw();
+        });
+    } catch (error) {
+        alert(error);
+    }
+    
     // create
     timer += delta;
     if(timer > 1000){
