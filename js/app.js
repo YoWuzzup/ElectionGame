@@ -44,7 +44,7 @@ var images = {
 var imagesSrc = {
     // different
     ballotBoxImg: '../img/ballotBox.png',
-    inGameBackground: '../img/background.jpg',
+    // inGameBackground: '../img/background.jpg',
 
     // bulletins
     bulletinYes: '../img/yes.png',
@@ -109,7 +109,7 @@ var skillPanelSize = {
 };
 
 var skillPanelPos = {
-    x: w * 0.10,
+    x: w * 0.30,
     y: h - (skillPanelSize.y + skillPanelSize.y / 2) 
 }
 
@@ -154,7 +154,7 @@ var navalnyRandomTime = rand(2000, 5000);
 
 function currentSize(){
     currentWidth = window.innerWidth, currentHeight = window.innerHeight;
-    
+
     // canvas.width and canvas.height set the size of the canvas. 
     canvas.width = currentWidth;
     canvas.height = currentHeight;
@@ -174,10 +174,10 @@ function currentSize(){
     };
 
     skillPanelPos = {
-        x: currentWidth * 0.10,
+        x: currentWidth * 0.30,
         y: currentHeight - (skillPanelSize.y + skillPanelSize.y / 2) 
     };
-
+    
     for (let i = 0; i < skillPanels.length; i++) {
         skillPanels[i].position[0] = skillPanels[i].position[0];
         skillPanels[i].position[1] = skillPanelPos.y;
@@ -288,15 +288,17 @@ function drawInGameBackground() {
 
                         // drawing score
 function drawScore() {
+    let scoreText = `Score: ${score}`; 
+    let measureText = ctx.measureText(scoreText).width;
     ctx.font = "16px Arial";
     ctx.fillStyle = colors.scoreColor;
-    ctx.fillText("Score: "+score, currentWidth / 2, currentHeight * 0.05);
+    ctx.fillText(scoreText, currentWidth / 2 - measureText / 2, currentHeight * 0.05);
 }   
 
                         // counting the score
 function counting() {
-
     let i = rects.length - 1;
+    
     for (; i >= 0; i -= 1){
         var r = rects[i];
         if (   r.position[0] + r.size[0] * 0.70 >= ballotBoxPos.x + r.size[0] * 1.5
@@ -460,9 +462,9 @@ function engine(){
         if(isCursorInRect(r) && statusActive === 'namePencil' 
         && r.imagesSrc === 'bulletinEmpty' && r.changed === false 
         && r.selected === true){
-                r.changed = true;
-                r.imagesSrc = 'bulletinYes';
-                r.bulletinValue = 'bulletinYesValue';
+            r.changed = true;
+            r.imagesSrc = 'bulletinYes';
+            r.bulletinValue = 'bulletinYesValue';
         } else if (isCursorInRect(r) && statusActive === 'namePencil' && r.changed !== true 
         && (r.imagesSrc === 'bulletinYes' || r.imagesSrc === 'bulletinNo') && r.selected === true){
             r.imagesSrc = 'bulletinSpoiled';
@@ -472,8 +474,8 @@ function engine(){
         // eraser skill
         if(isCursorInRect(r) && statusActive === 'nameEraser' 
         &&(r.imagesSrc === 'bulletinYes' || r.imagesSrc === 'bulletinNo') && r.selected === true){
-                r.imagesSrc = 'bulletinEmpty';
-                r.bulletinValue = 'bulletinEmptyValue';
+            r.imagesSrc = 'bulletinEmpty';
+            r.bulletinValue = 'bulletinEmptyValue';
         }
 
         // lighter skill
@@ -492,14 +494,9 @@ function engine(){
             r.thumbTacked = false;
 
         }
-
         r.draw();
     }
     
-    skillPanels.forEach(e => {
-        e.draw();
-    });
-
     // create
     timer += delta;
     if(timer > 1000){
@@ -526,6 +523,9 @@ function engine(){
     drawScore();
     counting();
     drawBallotBox();
+    skillPanels.forEach(e => {
+        e.draw();
+    });
     activatingSkillPanel();
     requestAnimationFrame(engine);
 }
@@ -604,6 +604,7 @@ function next(){
             activeSlide = allSlides[0];
             activeSlide.classList.add(`active`);
             $('tutorial').style.display = 'none';
+            document.querySelector('.tutorial__slider').style.display = 'none';
             $('inGameMenu').style.display = 'none';
             showMenu();
         }
