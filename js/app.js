@@ -72,14 +72,14 @@ var imagesSrc = {
     watcher: '../img/events/The Watcher.jpg',
 
     // slide pictures
-    firstSlide: "../img/tutorial_slide-1.png",
-    secondSlide: "../img/skills/pencil.png",
-    thirdSlide: "../img/skills/eraser.png",
-    fourthSlide: "../img/skills/lighter.png",
-    fifthSlide: "../img/skills/thumbTack.png",
+    firstSlide: "img/tutorial_slide-1.png",
+    secondSlide: "img/skills/pencil.png",
+    thirdSlide: "img/skills/eraser.png",
+    fourthSlide: "img/skills/lighter.png",
+    fifthSlide: "img/skills/thumbTack.png",
 
     // in game mini menu button
-    inGameMenu: '../img/menu.png'
+    inGameMenu: 'img/menu.png'
 };
 
 // my bad it's a crutch :)
@@ -524,13 +524,6 @@ function engine(){
         }
         r.draw();
     }
-    try {
-        skillPanels.forEach(e => {
-            e.draw();
-        });
-    } catch (error) {
-        alert(error);
-    }
     
     // create
     timer += delta;
@@ -558,7 +551,9 @@ function engine(){
     drawScore();
     counting();
     drawBallotBox();
-    
+    skillPanels.forEach(e => {
+        e.draw();
+    });
     activatingSkillPanel();
     requestAnimationFrame(engine);
 }
