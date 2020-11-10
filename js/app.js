@@ -525,6 +525,7 @@ function engine(){
     skillPanels.forEach(e => {
         e.draw();
     });
+alert('engine');
     activatingSkillPanel();
     requestAnimationFrame(engine);
 }
@@ -534,16 +535,21 @@ function init(){
     ctx = canvas.getContext('2d');
     canvas.width = w;
     canvas.height = h;
+alert('init');
+
 }
 
 function hideMenu(){
     $('menu').hidden = true;
+alert('hideMenu');
     $('inGameMenu').hidden = false;
 }
 
 function showMenu(){
     $('menu').hidden = false;
     $('inGameMenu').hidden = true;
+alert('showMenu');
+
 }
 
 function newGame(){
@@ -551,7 +557,7 @@ function newGame(){
     rects = [];
     skillPanels = [];
     score = 0;
-alert('asd');
+
     // positioning the skill panel
     for (let i = 0; i < 4; i++) {
         skillPanels.push(new skillPanel());
