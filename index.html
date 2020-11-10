@@ -5,24 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
     <meta name="full-screen" content="yes">
     <title>Election Game</title>
-    <link rel="stylesheet" href="style.css" type="text/css">
-</head>
+    <link rel="stylesheet" href="css/style.css" type="text/css">
 <body>
 
+    <!-- menu and menu buttons -->
     <div class="menu" id="menu">
         <h1>Welcome!</h1>
         <button class="menu-play button" onclick="newGame()">Play</button>
         <button class="menu-continue button" onclick="continueGame()">Continue</button>
+        <button class="menu-howToPlay button" onclick="tutorial()">Tutorial</button>
     </div>
 
+    <!-- tutorial section -->
+    <div id="tutorial" class="tutorial">
+        <div class="tutorial__slider">
+            <div class="tutorial_info tutorial_info-0 active"> 
+                <img class="tutorial__image" src="../img/tutorial_slide-1.png" alt="first slide">
+                <p class="tutorial__text tutorial__text__first">Hey and welcome to our elections parody game!</p>
+                <p class="tutorial__text tutorial__text__second">Here you're gonna be a corrupt bulletin thrower:)</p>
+            </div>
+            <div class="tutorial_info tutorial_info-1"> 
+                <img class="tutorial__image" src="../img/skills/pencil.png" alt="second slide">
+                <p class="tutorial__text tutorial__text__first">Pencil</p>
+                <p class="tutorial__text tutorial__text__second">Makes 'yes' and 'no' bulletins spoiled but empty ones become 'yes' ones</p>
+            </div>
+            <div class="tutorial_info tutorial_info-2"> 
+                <img class="tutorial__image" src="../img/skills/eraser.png" alt="third slide">
+                <p class="tutorial__text tutorial__text__first">Eraser</p>
+                <p class="tutorial__text tutorial__text__second">Makes 'yes' and 'no' bulletins empty</p>
+            </div>
+            <div class="tutorial_info tutorial_info-3"> 
+                <img class="tutorial__image" src="../img/skills/lighter.png" alt="four slide">
+                <p class="tutorial__text tutorial__text__first">Lighter</p>
+                <p class="tutorial__text tutorial__text__second">Burns the bulletins</p>
+            </div>
+            <div class="tutorial_info tutorial_info-4"> 
+                <img class="tutorial__image" src="../img/skills/thumbTack.png" alt="fifth slide">
+                <p class="tutorial__text tutorial__text__first">Thumbtack</p>
+                <p class="tutorial__text tutorial__text__second">Makes a bulletin hanging in its place</p>
+            </div>
+            <button class="tutorial__nextButton button" onclick="next()">Next</button>
+        </div>
+    </div>
+
+    <!-- canvas -->
     <div id="game">
         <div id="inGameMenu" onclick="pauseGame()"></div>
         <canvas id="canvas"></canvas>
     </div>
-
-    <script type="text/javascript" src="app.js"></script>
-    <script> 
-        // newGame();
+    
+    <script type="text/javascript">
+        // tutorial();
     </script>
+    <script type="text/javascript" src="js/app.js"></script>
+    
 </body>
 </html>
