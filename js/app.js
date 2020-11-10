@@ -153,6 +153,7 @@ var navalnyRandomTime = rand(2000, 5000);
 
 function currentSize(){
     currentWidth = window.innerWidth, currentHeight = window.innerHeight;
+alert('currentSize');
 
     // canvas.width and canvas.height set the size of the canvas. 
     canvas.width = currentWidth;
@@ -283,6 +284,7 @@ function drawInGameBackground() {
     ctx.fillStyle = '#63feb3';
     ctx.rect(0, 0, currentWidth, currentHeight);
     ctx.fill();
+alert('drawInGameBackground');
 }
 
                         // drawing score
@@ -292,6 +294,7 @@ function drawScore() {
     ctx.font = "16px Arial";
     ctx.fillStyle = colors.scoreColor;
     ctx.fillText(scoreText, currentWidth / 2 - measureText / 2, currentHeight * 0.05);
+alert('drawScore');
 }   
 
                         // counting the score
@@ -345,6 +348,7 @@ skillPanel.prototype = {
 }
 
 function activatingSkillPanel() {
+alert('activatingSkillPanel');
     switch (statusActive) {
         case 'namePencil':
             ctx.beginPath();
@@ -444,6 +448,7 @@ function engine(){
     time = new Date().getTime();
     delta = time - oldTime;
     oldTime = time;
+alert('engine111');
 
     // update
     ctx.clearRect(0, 0, currentWidth, currentHeight);
@@ -495,6 +500,7 @@ function engine(){
         }
         r.draw();
     }
+alert('engine222');
     
     // create
     timer += delta;
