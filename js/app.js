@@ -551,7 +551,7 @@ function newGame(){
     rects = [];
     skillPanels = [];
     score = 0;
-
+alert('asd');
     // positioning the skill panel
     for (let i = 0; i < 4; i++) {
         skillPanels.push(new skillPanel());
