@@ -52,24 +52,24 @@ var images = {
 
 var imagesSrc = {
     // different
-    ballotBoxImg: '../img/ballotBox.png',
+    ballotBoxImg: 'img/ballotBox.png',
     // inGameBackground: '../img/background.jpg',
 
     // bulletins
-    bulletinYes: '../img/yes.png',
-    bulletinNo: '../img/no.png',
-    bulletinSpoiled: '../img/spoiled.png',
-    bulletinEmpty: '../img/empty.png',
+    bulletinYes: 'img/yes.png',
+    bulletinNo: 'img/no.png',
+    bulletinSpoiled: 'img/spoiled.png',
+    bulletinEmpty: 'img/empty.png',
 
     // skills
-    skillLighter: '../img/skills/lighter.png',
-    skillEraser: '../img/skills/eraser.png',
-    skillPencil: '../img/skills/pencil.png',
-    skillThumbTack: '../img/skills/thumbTack.png',
+    skillLighter: 'img/skills/lighter.png',
+    skillEraser: 'img/skills/eraser.png',
+    skillPencil: 'img/skills/pencil.png',
+    skillThumbTack: 'img/skills/thumbTack.png',
 
     // events
-    navalny: '../img/events/Navalny.jpg',
-    watcher: '../img/events/The Watcher.jpg',
+    navalny: 'img/events/Navalny.jpg',
+    watcher: 'img/events/The Watcher.jpg',
 
     // slide pictures
     firstSlide: "img/tutorial_slide-1.png",
