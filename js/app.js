@@ -524,7 +524,9 @@ function engine(){
         }
         r.draw();
     }
-
+    skillPanels.forEach(e => {
+        e.draw();
+    });
     // create
     timer += delta;
     if(timer > 1000){
@@ -551,9 +553,7 @@ function engine(){
     drawScore();
     counting();
     drawBallotBox();
-    skillPanels.forEach(e => {
-        e.draw();
-    });
+    
     activatingSkillPanel();
     requestAnimationFrame(engine);
 }
