@@ -37,7 +37,17 @@ var images = {
 
     // events
     navalny: new Image(),
-    watcher: new Image()
+    watcher: new Image(),
+
+    // slide pictures
+    firstSlide: new Image(),
+    secondSlide: new Image(),
+    thirdSlide: new Image(),
+    fourthSlide: new Image(),
+    fifthSlide: new Image(),
+
+    // in game mini menu button
+    inGameMenu: new Image()
 };
 
 var imagesSrc = {
@@ -59,8 +69,27 @@ var imagesSrc = {
 
     // events
     navalny: '../img/events/Navalny.jpg',
-    watcher: '../img/events/The Watcher.jpg'
+    watcher: '../img/events/The Watcher.jpg',
+
+    // slide pictures
+    firstSlide: "../img/tutorial_slide-1.png",
+    secondSlide: "../img/skills/pencil.png",
+    thirdSlide: "../img/skills/eraser.png",
+    fourthSlide: "../img/skills/lighter.png",
+    fifthSlide: "../img/skills/thumbTack.png",
+
+    // in game mini menu button
+    inGameMenu: '../img/menu.png'
 };
+
+// my bad it's a crutch :)
+document.querySelector('.tutorial_info-0 img').src = imagesSrc.firstSlide;
+document.querySelector('.tutorial_info-1 img').src = imagesSrc.secondSlide;
+document.querySelector('.tutorial_info-2 img').src = imagesSrc.thirdSlide;
+document.querySelector('.tutorial_info-3 img').src = imagesSrc.fourthSlide;
+document.querySelector('.tutorial_info-4 img').src = imagesSrc.fifthSlide;
+$('inGameMenu').style.background = `url('${imagesSrc.inGameMenu}')`;
+$('inGameMenu').style.backgroundSize = `cover`;
 
 var skillPanelNames = [
     'namePencil',
@@ -495,14 +524,7 @@ function engine(){
         }
         r.draw();
     }
-    
-    try {
-        skillPanels.forEach(e => {
-            e.draw();
-        });
-    } catch (er) {
-        alert(er);
-    }
+
     // create
     timer += delta;
     if(timer > 1000){
@@ -529,6 +551,9 @@ function engine(){
     drawScore();
     counting();
     drawBallotBox();
+    skillPanels.forEach(e => {
+        e.draw();
+    });
     activatingSkillPanel();
     requestAnimationFrame(engine);
 }

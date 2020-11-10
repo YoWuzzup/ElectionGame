@@ -112,15 +112,13 @@ body {
 #inGameMenu {
     width: 45px;
     height: 45px;
-    background-image: url('../img/menu.png');
-    background-size: cover;
     position: absolute;
     top: 2%;
     left: 2%;
     display: none;
 }
 
-@media screen and (orientation: landscape){
+@media (orientation: landscape){
     .tutorial__text__first{
         margin-top: 15px;
     }
