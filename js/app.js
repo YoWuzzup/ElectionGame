@@ -274,6 +274,7 @@ function drawNavalny() {
 function drawBallotBox() {   
     images.ballotBoxImg.src = imagesSrc.ballotBoxImg;
     ctx.drawImage(images.ballotBoxImg, ballotBoxPos.x, ballotBoxPos.y, ballotBoxSize.x, ballotBoxSize.y);
+alert('drawBallotBox');
 }
 
                         // drawing background in the game
@@ -528,6 +529,8 @@ alert('engine222');
     drawScore();
     counting();
     drawBallotBox();
+alert('????');
+
     skillPanels.forEach(e => {
         e.draw();
     });
