@@ -568,7 +568,7 @@ function newGame(){
     init();
     engine();
     $('inGameMenu').style.display = 'block';
-    alert('Hello');
+    alert(console.error());
     hideMenu();
 }
 
