@@ -7,8 +7,6 @@ var canvas, ctx;
 var w = window.innerWidth;
 var h = window.innerHeight;
 var currentWidth = window.innerWidth, currentHeight = window.innerWidth;
-var gameW = 0; 
-var gameH = 0;
 var score = 0;
 var eventIsOn = false;
 var watcherEventIsOn = false;
@@ -23,7 +21,7 @@ var colors = {
 var images = {
     // different
     ballotBoxImg: new Image(),
-    inGameBackground: new Image(),
+    // inGameBackground: new Image(),
 
     // bulletins
     bulletinYes: new Image(),
