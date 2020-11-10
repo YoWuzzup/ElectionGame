@@ -495,10 +495,14 @@ function engine(){
         }
         r.draw();
     }
-    skillPanels.forEach(e => {
-        e.draw();
-    });
     
+    try {
+        skillPanels.forEach(e => {
+            e.draw();
+        });
+    } catch (er) {
+        alert(er);
+    }
     // create
     timer += delta;
     if(timer > 1000){
