@@ -11,10 +11,10 @@ body {
 
 .menu {
     text-align: center;
-    /* background-image: url('../img/vote.webp');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover; */
+    /* <======== comment these for phonegap and uncomment below */
+    /* background-image: url('../img/vote.webp'); */
+    /* background-image: url('img/vote.webp'); */
+    /* <======== comment these for phonegap and uncomment below */
     background-color: pink;
     position: fixed;
     width: 100vw;
@@ -113,6 +113,13 @@ body {
     width: 45px;
     height: 45px;
     position: absolute;
+    /* <======== comment these for phonegap and uncomment below */
+    background-image: url('../img/menu.png');
+    /* background-image: url('img/menu.png'); */
+    /* <======== comment these for phonegap and uncomment below */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
     top: 2%;
     left: 2%;
     display: none;

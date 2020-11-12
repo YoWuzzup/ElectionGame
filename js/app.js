@@ -1,16 +1,14 @@
 var $ = function (id) {return document.getElementById(id)};
-$('tutorial').hidden = true;
-
-var paused = false;
 
 var canvas, ctx;
 var w = window.innerWidth;
 var h = window.innerHeight;
 var currentWidth = window.innerWidth, currentHeight = window.innerWidth;
 var score = 0;
+var paused = false;
 var eventIsOn = false;
-var watcherEventIsOn = false;
 var screenChanging = false;
+var watcherEventIsOn = false;
 var eraser, pen, thumbTack;
 var sliderCount;
 
@@ -21,7 +19,7 @@ var colors = {
 var images = {
     // different
     ballotBoxImg: new Image(),
-    // inGameBackground: new Image(),
+                                          // inGameBackground: new Image(),
 
     // bulletins
     bulletinYes: new Image(),
@@ -38,22 +36,12 @@ var images = {
     // events
     navalny: new Image(),
     watcher: new Image(),
-
-    // slide pictures
-    firstSlide: new Image(),
-    secondSlide: new Image(),
-    thirdSlide: new Image(),
-    fourthSlide: new Image(),
-    fifthSlide: new Image(),
-
-    // in game mini menu button
-    inGameMenu: new Image()
 };
 
 var imagesSrc = {
     // different
     ballotBoxImg: 'img/ballotBox.png',
-    // inGameBackground: '../img/background.jpg',
+                                                 // inGameBackground: '../img/background.jpg',
 
     // bulletins
     bulletinYes: 'img/yes.png',
@@ -70,26 +58,7 @@ var imagesSrc = {
     // events
     navalny: 'img/events/Navalny.jpg',
     watcher: 'img/events/The Watcher.jpg',
-
-    // slide pictures
-    firstSlide: "img/tutorial_slide-1.png",
-    secondSlide: "img/skills/pencil.png",
-    thirdSlide: "img/skills/eraser.png",
-    fourthSlide: "img/skills/lighter.png",
-    fifthSlide: "img/skills/thumbTack.png",
-
-    // in game mini menu button
-    inGameMenu: 'img/menu.png'
 };
-
-// my bad it's a crutch :)
-document.querySelector('.tutorial_info-0 img').src = imagesSrc.firstSlide;
-document.querySelector('.tutorial_info-1 img').src = imagesSrc.secondSlide;
-document.querySelector('.tutorial_info-2 img').src = imagesSrc.thirdSlide;
-document.querySelector('.tutorial_info-3 img').src = imagesSrc.fourthSlide;
-document.querySelector('.tutorial_info-4 img').src = imagesSrc.fifthSlide;
-$('inGameMenu').style.background = `url('${imagesSrc.inGameMenu}')`;
-$('inGameMenu').style.backgroundSize = `cover`;
 
 var skillPanelNames = [
     'namePencil',
@@ -306,8 +275,6 @@ function drawBallotBox() {
 
                         // drawing background in the game
 function drawInGameBackground() {   
-    // images.inGameBackground.src = imagesSrc.inGameBackground;
-    // ctx.drawImage(images.inGameBackground, 0, 0, currentWidth, currentHeight);
     ctx.beginPath();
     ctx.fillStyle = '#63feb3';
     ctx.rect(0, 0, currentWidth, currentHeight);
@@ -593,9 +560,9 @@ function newGame(){
             skillPanels[i].position[1] = skillPanelPos.y;
         }
     }
+    $('inGameMenu').style.display = 'block';
     init();
     engine();
-    $('inGameMenu').style.display = 'block';
     hideMenu();
 }
 
@@ -633,8 +600,6 @@ function next(){
             activeSlide = allSlides[0];
             activeSlide.classList.add(`active`);
             $('tutorial').style.display = 'none';
-            document.querySelector('.tutorial__slider').style.display = 'none';
-            $('tutorial').hidden = true;
             $('inGameMenu').style.display = 'none';
             showMenu();
         }
