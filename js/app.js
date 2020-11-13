@@ -16,6 +16,30 @@ var colors = {
     scoreColor: '#000'
 };
 
+                    // songs 
+var mainThemeSong = document.querySelector('.menu-mainTheme')
+mainThemeSong.addEventListener("canplay", e => {
+    mainThemeSong.muted = false;
+    mainThemeSong.play();
+});
+
+function stopAndPlaySong() {
+    let audio = document.getElementsByClassName('menu-mainTheme')[0];
+    let audioBackGround = document.querySelector('#muteSong');
+
+    if (audio.duration > 0 && !audio.paused) {
+        audio.pause();
+        // for phonegap     
+        // audioBackGround.style.backgroundImage = "url('../img/volumeDown.png')";
+        audioBackGround.style.backgroundImage = "url('img/volumeDown.png')";    
+    } else {
+        // for phonegap
+        // audioBackGround.style.backgroundImage = "url('../img/volumeUp.png')";
+        audioBackGround.style.backgroundImage = "url('img/volumeUp.png')";
+        audio.play();
+    }
+}
+
 var images = {
     // different
     ballotBoxImg: new Image(),
@@ -534,11 +558,13 @@ function init(){
 
 function hideMenu(){
     $('menu').hidden = true;
+    $('muteSong').hidden = true;
     $('inGameMenu').hidden = false;
 }
 
 function showMenu(){
     $('menu').hidden = false;
+    $('muteSong').hidden = false;
     $('inGameMenu').hidden = true;
 }
 

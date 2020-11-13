@@ -114,8 +114,8 @@ body {
     height: 45px;
     position: absolute;
     /* <======== comment these for phonegap and uncomment below */
-    background-image: url('../img/menu.png');
-    /* background-image: url('img/menu.png'); */
+    /* background-image: url('../img/menu.png'); */
+    background-image: url('img/menu.png');
     /* <======== comment these for phonegap and uncomment below */
     background-repeat: no-repeat;
     background-position: center;
@@ -123,6 +123,21 @@ body {
     top: 2%;
     left: 2%;
     display: none;
+}
+
+#muteSong{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    /* <======== comment these for phonegap and uncomment below */
+    /* background-image: url('../img/volumeUp.png'); */
+    background-image: url('img/volumeUp.png');
+    /* <======== comment these for phonegap and uncomment below */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    top: 10%;
+    left: 2%;
 }
 
 @media (orientation: landscape){
