@@ -11,6 +11,7 @@ var screenChanging = false;
 var watcherEventIsOn = false;
 var eraser, pen, thumbTack;
 var sliderCount;
+var audioBackGround = document.querySelector('#muteSong');
 
 var colors = {
     scoreColor: '#000'
@@ -19,13 +20,15 @@ var colors = {
                     // songs 
 var mainThemeSong = document.querySelector('.menu-mainTheme')
 mainThemeSong.addEventListener("canplay", e => {
+        // for phonegap     
+    // audioBackGround.style.backgroundImage = "url('../img/volumeUp.png')";   
+    audioBackGround.style.backgroundImage = "url('img/volumeUp.png')";    
     mainThemeSong.muted = false;
-    mainThemeSong.play();
+    // mainThemeSong.play();
 });
 
 function stopAndPlaySong() {
     let audio = document.getElementsByClassName('menu-mainTheme')[0];
-    let audioBackGround = document.querySelector('#muteSong');
 
     if (audio.duration > 0 && !audio.paused) {
         audio.pause();
@@ -273,13 +276,18 @@ window.addEventListener('touchmove', e => {
 })
 
 window.addEventListener('touchend', (e) =>{
-        rects.forEach(el => {
-            if(el.isDragging === true) {
-                el.selected = false; 
-            }
-            el.isDragging = false;
-        });
+    rects.forEach(el => {
+        if(el.isDragging === true) {
+            el.selected = false; 
+        }
+        el.isDragging = false;
+    });
 })
+
+                        // prevent context menu (right click)
+window.addEventListener('contextmenu', e => {
+    e.preventDefault();
+});
 
                         // drawing the watcher pic
 function drawWathcer(){
@@ -470,7 +478,7 @@ function engine(){
     drawInGameBackground();
     var i = rects.length - 1;
     for (; i >= 0; i -= 1){
-        var r = rects[i];
+        let r = rects[i];
         if(!r.selected && !r.thumbTacked) {
             r.position[1] += r.speed * delta; 
         } else if(r.selected && r.thumbTacked){
@@ -492,7 +500,8 @@ function engine(){
 
         // eraser skill
         if(isCursorInRect(r) && statusActive === 'nameEraser' 
-        &&(r.imagesSrc === 'bulletinYes' || r.imagesSrc === 'bulletinNo') && r.selected === true){
+        &&(r.imagesSrc === 'bulletinYes' || r.imagesSrc === 'bulletinNo') 
+        && r.selected === true){
             r.imagesSrc = 'bulletinEmpty';
             r.bulletinValue = 'bulletinEmptyValue';
         }
@@ -511,7 +520,6 @@ function engine(){
             r.position[1] = mouse.y - rectSize.y / 2;
         } else if (!isCursorInRect(r)){
             r.thumbTacked = false;
-
         }
         r.draw();
     }

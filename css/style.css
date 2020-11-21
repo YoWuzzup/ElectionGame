@@ -5,16 +5,22 @@
     outline: none;
 }
 
+/* URLs for phonegap in CSS gotta be the regular ones as for CSS */
+
 body {
     overflow: hidden;
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
 }
 
 .menu {
     text-align: center;
-    /* <======== comment these for phonegap and uncomment below */
     /* background-image: url('../img/vote.webp'); */
-    /* background-image: url('img/vote.webp'); */
-    /* <======== comment these for phonegap and uncomment below */
     background-color: pink;
     position: fixed;
     width: 100vw;
@@ -39,7 +45,7 @@ body {
     font-size: 5vh;
 }
 
-.button:hover{
+.button:active{
     border-color: rgba(255,255,255,1);
 }
 
@@ -113,10 +119,7 @@ body {
     width: 45px;
     height: 45px;
     position: absolute;
-    /* <======== comment these for phonegap and uncomment below */
-    /* background-image: url('../img/menu.png'); */
-    background-image: url('img/menu.png');
-    /* <======== comment these for phonegap and uncomment below */
+    background-image: url('../img/menu.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -129,14 +132,11 @@ body {
     width: 30px;
     height: 30px;
     position: absolute;
-    /* <======== comment these for phonegap and uncomment below */
-    /* background-image: url('../img/volumeUp.png'); */
-    background-image: url('img/volumeUp.png');
-    /* <======== comment these for phonegap and uncomment below */
+    background-image: url('../img/volumeUp.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    top: 10%;
+    bottom: 2%;
     left: 2%;
 }
 
